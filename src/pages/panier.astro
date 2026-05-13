@@ -1,0 +1,13 @@
+---
+import BaseLayout from '@/layouts/BaseLayout.astro';
+import CartView from '@/components/CartView.tsx';
+---
+
+<BaseLayout title="Panier — Korean Beauty">
+  <section class="container-kb py-16">
+    <h1 class="font-display text-4xl text-center mb-4">Votre panier</h1>
+    <p class="text-center text-muted mb-12">Vérifiez votre sélection avant de passer au paiement.</p>
+
+    <CartView client:load />
+  </section>
+</BaseLayout>

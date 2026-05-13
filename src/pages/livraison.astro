@@ -1,0 +1,103 @@
+---
+import BaseLayout from '@/layouts/BaseLayout.astro';
+---
+
+<BaseLayout
+  title="Livraison — Korean Beauty"
+  description="Informations sur la livraison, les délais et les frais de port pour Korean Beauty."
+>
+  <section class="container-kb py-16">
+    <h1 class="font-display text-5xl mb-4 text-jade">Livraison</h1>
+    <p class="text-lg text-muted mb-12">Nous livrons vos commandes rapidement et en toute sécurité.</p>
+
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-8 mb-16">
+      <div class="bg-ecume rounded-lg p-8">
+        <div class="text-3xl text-jade mb-4">🚚</div>
+        <h3 class="font-display text-xl mb-3 text-foret">Livraison standard</h3>
+        <p class="text-sm text-muted mb-4">Métropole française</p>
+        <ul class="text-base space-y-2">
+          <li><strong>Délai :</strong> 3 à 5 jours ouvrés</li>
+          <li><strong>Frais :</strong> À partir de 6,99 €</li>
+          <li><strong>Gratuit à partir de 50 €</strong></li>
+        </ul>
+      </div>
+
+      <div class="bg-ecume rounded-lg p-8">
+        <div class="text-3xl text-jade mb-4">⚡</div>
+        <h3 class="font-display text-xl mb-3 text-foret">Livraison express</h3>
+        <p class="text-sm text-muted mb-4">Métropole française</p>
+        <ul class="text-base space-y-2">
+          <li><strong>Délai :</strong> 1 à 2 jours ouvrés</li>
+          <li><strong>Frais :</strong> 12,99 €</li>
+          <li><strong>Dimanche inclus</strong></li>
+        </ul>
+      </div>
+
+      <div class="bg-ecume rounded-lg p-8">
+        <div class="text-3xl text-jade mb-4">🌍</div>
+        <h3 class="font-display text-xl mb-3 text-foret">Livraison internationale</h3>
+        <p class="text-sm text-muted mb-4">Belgique, Suisse, Luxembourg</p>
+        <ul class="text-base space-y-2">
+          <li><strong>Délai :</strong> 5 à 10 jours</li>
+          <li><strong>Frais :</strong> Variables selon destination</li>
+          <li><strong>Suivi complet</strong></li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-12 mb-16">
+      <div>
+        <h2 class="font-display text-2xl mb-4 text-jade">Comment ça marche ?</h2>
+        <ol class="space-y-4 text-base">
+          <li class="flex gap-4">
+            <span class="text-jade font-bold">1.</span>
+            <span>Passez votre commande avant 14h pour une expédition le jour même</span>
+          </li>
+          <li class="flex gap-4">
+            <span class="text-jade font-bold">2.</span>
+            <span>Recevez un email de confirmation avec un numéro de suivi</span>
+          </li>
+          <li class="flex gap-4">
+            <span class="text-jade font-bold">3.</span>
+            <span>Suivez votre colis en temps réel</span>
+          </li>
+          <li class="flex gap-4">
+            <span class="text-jade font-bold">4.</span>
+            <span>Recevez votre commande à l'adresse de votre choix</span>
+          </li>
+        </ol>
+      </div>
+
+      <div>
+        <h2 class="font-display text-2xl mb-4 text-jade">Points importants</h2>
+        <ul class="space-y-3 text-base">
+          <li class="flex gap-3">
+            <span class="text-jade font-bold">•</span>
+            <span>Les délais ne comprennent pas les jours fériés et dimanches</span>
+          </li>
+          <li class="flex gap-3">
+            <span class="text-jade font-bold">•</span>
+            <span>Emballage sécurisé pour protéger vos produits en transit</span>
+          </li>
+          <li class="flex gap-3">
+            <span class="text-jade font-bold">•</span>
+            <span>Numéro de suivi automatique pour toute commande</span>
+          </li>
+          <li class="flex gap-3">
+            <span class="text-jade font-bold">•</span>
+            <span>Assurance gratuite pour tous les colis</span>
+          </li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="bg-jade text-white rounded-lg p-8">
+      <h3 class="font-display text-xl mb-3">Questions sur votre commande ?</h3>
+      <p class="mb-4">
+        Contactez notre équipe à <a href="mailto:hello@korean-beauty.fr" class="underline hover:text-ecume">
+          hello@korean-beauty.fr
+        </a> — nous répondons en moins de 24h.
+      </p>
+    </div>
+  </section>
+</BaseLayout>

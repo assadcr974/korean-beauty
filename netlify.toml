@@ -1,0 +1,10 @@
+[build]
+  command = "npm run build"
+  publish = "dist"
+
+[build.environment]
+  NODE_VERSION = "22"
+
+# L'adaptateur @astrojs/netlify gère automatiquement les redirects vers
+# les Edge Functions / Functions. Pas besoin de redirect catch-all manuel
+# (qui pourrait shorter le système de routing d'Astro SSR).

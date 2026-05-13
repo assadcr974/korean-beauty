@@ -1,0 +1,156 @@
+---
+import BaseLayout from '@/layouts/BaseLayout.astro';
+---
+
+<BaseLayout
+  title="Contact — Korean Beauty"
+  description="Nous contacter — questions, partenariats ou demandes spéciales pour Korean Beauty."
+>
+  <section class="container-kb py-16">
+    <h1 class="font-display text-5xl mb-4 text-jade">Nous contacter</h1>
+    <p class="text-lg text-muted mb-12">Une question ? Une demande spéciale ? Nous sommes là pour vous.</p>
+
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-8 mb-16">
+      <div class="bg-ecume rounded-lg p-8 text-center">
+        <div class="text-3xl mb-4">✉️</div>
+        <h3 class="font-display text-xl mb-3 text-jade">Email</h3>
+        <a href="mailto:hello@korean-beauty.fr" class="text-base text-foret font-bold hover:text-jade">
+          hello@korean-beauty.fr
+        </a>
+        <p class="text-sm text-muted mt-2">Réponse en moins de 24h</p>
+      </div>
+
+      <div class="bg-ecume rounded-lg p-8 text-center">
+        <div class="text-3xl mb-4">📍</div>
+        <h3 class="font-display text-xl mb-3 text-jade">Adresse</h3>
+        <p class="text-base text-foret">
+          Korean Beauty<br />
+          Paris, France
+        </p>
+        <p class="text-sm text-muted mt-2">Siège social</p>
+      </div>
+
+      <div class="bg-ecume rounded-lg p-8 text-center">
+        <div class="text-3xl mb-4">💬</div>
+        <h3 class="font-display text-xl mb-3 text-jade">Réseaux</h3>
+        <p class="text-base text-foret">@koreanbeauty.fr</p>
+        <p class="text-sm text-muted mt-2">Instagram & TikTok</p>
+      </div>
+    </div>
+
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-12 mb-16">
+      <div>
+        <h2 class="font-display text-2xl mb-6 text-jade">Types de demandes</h2>
+        <ul class="space-y-4 text-base">
+          <li>
+            <strong class="text-jade">Service client</strong>
+            <p class="text-muted mt-1">Problèmes de commande, livraison, remboursement</p>
+          </li>
+          <li>
+            <strong class="text-jade">Conseils produits</strong>
+            <p class="text-muted mt-1">Quel produit pour ma peau ? Recommandations personnalisées</p>
+          </li>
+          <li>
+            <strong class="text-jade">Partenariats</strong>
+            <p class="text-muted mt-1">Collaborations, influenceurs, marques</p>
+          </li>
+          <li>
+            <strong class="text-jade">Retours & échanges</strong>
+            <p class="text-muted mt-1">Contactez <a href="mailto:retours@korean-beauty.fr" class="text-jade font-bold">retours@korean-beauty.fr</a></p>
+          </li>
+        </ul>
+      </div>
+
+      <div>
+        <h2 class="font-display text-2xl mb-6 text-jade">Délais de réponse</h2>
+        <div class="bg-ecume rounded-lg p-6 space-y-4">
+          <div>
+            <p class="font-bold text-jade">Heures de bureau</p>
+            <p class="text-base text-muted">Lun - Ven, 9h - 18h (CET)</p>
+          </div>
+          <div>
+            <p class="font-bold text-jade">Temps de réponse</p>
+            <p class="text-base text-muted">&lt; 24h pour les demandes standards</p>
+          </div>
+          <div>
+            <p class="font-bold text-jade">Urgence</p>
+            <p class="text-base text-muted">Pour un problème urgent, mettez [URGENT] dans le sujet</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="bg-jade text-white rounded-lg p-8 mb-12">
+      <h3 class="font-display text-xl mb-3">Envoyer un message</h3>
+      <p class="mb-6">
+        Remplissez le formulaire ci-dessous et nous vous répondrons au plus vite.
+      </p>
+      <form class="space-y-4">
+        <div>
+          <label for="name" class="block text-sm font-bold mb-2">Nom</label>
+          <input
+            type="text"
+            id="name"
+            name="name"
+            required
+            class="w-full px-4 py-2 rounded bg-white text-foret placeholder-muted focus:outline-none focus:ring-2 focus:ring-ecume"
+            placeholder="Votre nom"
+          />
+        </div>
+
+        <div>
+          <label for="email" class="block text-sm font-bold mb-2">Email</label>
+          <input
+            type="email"
+            id="email"
+            name="email"
+            required
+            class="w-full px-4 py-2 rounded bg-white text-foret placeholder-muted focus:outline-none focus:ring-2 focus:ring-ecume"
+            placeholder="votre@email.fr"
+          />
+        </div>
+
+        <div>
+          <label for="subject" class="block text-sm font-bold mb-2">Sujet</label>
+          <input
+            type="text"
+            id="subject"
+            name="subject"
+            required
+            class="w-full px-4 py-2 rounded bg-white text-foret placeholder-muted focus:outline-none focus:ring-2 focus:ring-ecume"
+            placeholder="Sujet du message"
+          />
+        </div>
+
+        <div>
+          <label for="message" class="block text-sm font-bold mb-2">Message</label>
+          <textarea
+            id="message"
+            name="message"
+            required
+            rows="6"
+            class="w-full px-4 py-2 rounded bg-white text-foret placeholder-muted focus:outline-none focus:ring-2 focus:ring-ecume"
+            placeholder="Votre message..."></textarea>
+        </div>
+
+        <button
+          type="submit"
+          class="w-full bg-ecume text-jade font-bold py-3 rounded hover:bg-white transition"
+        >
+          Envoyer
+        </button>
+      </form>
+      <p class="text-sm text-ecume mt-4">
+        Le formulaire est actuellement une démo. Pour nous contacter, utilisez directement l'email.
+      </p>
+    </div>
+
+    <div class="bg-ecume rounded-lg p-8 text-center">
+      <h3 class="font-display text-xl mb-3 text-jade">Merci pour votre intérêt !</h3>
+      <p class="text-base text-foret">
+        Nous adorons les messages de nos clients. N'hésitez pas à nous partager vos retours, vos questions,
+        ou simplement vos avis sur nos produits. 🌿
+      </p>
+    </div>
+  </section>
+</BaseLayout>

@@ -1,0 +1,25 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 80" role="img" aria-label="Korean Beauty by Assa">
+  <!-- Feuille à gauche -->
+  <g transform="translate(34 40)">
+    <ellipse cx="0" cy="-6" rx="11" ry="18" fill="none" stroke="#17301F" stroke-width="1.4"/>
+    <line x1="0" y1="-24" x2="0" y2="16" stroke="#17301F" stroke-width="1.2"/>
+    <circle cx="0" cy="19" r="3.2" fill="#7EC49A"/>
+  </g>
+
+  <!-- KOREAN -->
+  <text x="78" y="36"
+    font-family="'Playfair Display', 'Palatino Linotype', Palatino, Georgia, serif"
+    font-size="22" font-weight="500"
+    fill="#17301F" letter-spacing="3">KOREAN</text>
+
+  <!-- BEAUTY -->
+  <text x="78" y="60"
+    font-family="'Playfair Display', 'Palatino Linotype', Palatino, Georgia, serif"
+    font-size="22" font-weight="500"
+    fill="#17301F" letter-spacing="3">BEAUTY</text>
+
+  <!-- BY ASSA -->
+  <text x="78" y="73"
+    font-family="'Playfair Display', 'Palatino Linotype', Palatino, Georgia, serif"
+    font-size="6.5" fill="#7EC49A" letter-spacing="4">BY ASSA</text>
+</svg>

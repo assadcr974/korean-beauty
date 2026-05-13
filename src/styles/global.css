@@ -1,0 +1,133 @@
+@import "tailwindcss";
+
+/* ──────────────────────────────────────────────────────────────
+   Korean Beauty — Design System
+   Palette Jade · Architecture Shopify Headless + Astro SSR
+   ────────────────────────────────────────────────────────────── */
+
+/* Tailwind 4 — Thème (couleurs utilisables comme `bg-jade`, `text-foret`, etc.) */
+@theme {
+  /* Couleurs — Charte officielle Korean Beauty 2025 */
+  --color-jade: #3D7A58;
+  --color-foret: #17301F;
+  --color-menthe: #7EC49A;
+  --color-ecume: #EAF4EE;
+  --color-text: #17301F;
+  --color-muted: #6B8F76;
+  --color-border: #D8E8DC;
+  --color-bg: #FFFFFF;
+
+  /* Typographie */
+  --font-display: 'Playfair Display', Georgia, serif;
+  --font-body: 'Inter', system-ui, -apple-system, sans-serif;
+
+  /* Border radius */
+  --radius-sm: 6px;
+  --radius-md: 12px;
+  --radius-lg: 20px;
+}
+
+/* Variables CSS classiques (pour usage hors Tailwind) */
+:root {
+  --shadow-card: 0 2px 8px rgba(23, 48, 31, 0.08);
+  --shadow-hover: 0 8px 24px rgba(23, 48, 31, 0.14);
+  --transition: all 0.4s ease;
+}
+
+/* ──────────────────────────────────────────────────────────────
+   Base
+   ────────────────────────────────────────────────────────────── */
+
+html {
+  font-family: var(--font-body);
+  color: var(--color-text);
+  background: var(--color-bg);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+body {
+  min-height: 100vh;
+}
+
+h1, h2, h3, h4, h5 {
+  font-family: var(--font-display);
+  color: var(--color-text);
+  letter-spacing: -0.01em;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+  transition: var(--transition);
+}
+
+img {
+  display: block;
+  max-width: 100%;
+  height: auto;
+}
+
+/* ──────────────────────────────────────────────────────────────
+   Composants utilitaires
+   ────────────────────────────────────────────────────────────── */
+
+.container-kb {
+  width: 100%;
+  max-width: 1280px;
+  margin-inline: auto;
+  padding-inline: 1.5rem;
+}
+
+@media (min-width: 768px) {
+  .container-kb { padding-inline: 2rem; }
+}
+
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0.875rem 1.75rem;
+  font-weight: 500;
+  font-size: 0.95rem;
+  letter-spacing: 0.02em;
+  border-radius: var(--radius-md);
+  cursor: pointer;
+  transition: var(--transition);
+  text-align: center;
+  border: 1px solid transparent;
+}
+
+.btn-primary {
+  background: var(--color-jade);
+  color: #fff;
+}
+.btn-primary:hover {
+  background: var(--color-foret);
+  box-shadow: var(--shadow-hover);
+  transform: translateY(-1px);
+}
+
+.btn-secondary {
+  background: transparent;
+  color: var(--color-jade);
+  border-color: var(--color-jade);
+}
+.btn-secondary:hover {
+  background: var(--color-jade);
+  color: #fff;
+}
+
+.card {
+  background: var(--color-bg);
+  border-radius: var(--radius-md);
+  box-shadow: var(--shadow-card);
+  transition: var(--transition);
+  overflow: hidden;
+}
+.card:hover {
+  box-shadow: var(--shadow-hover);
+  transform: translateY(-2px);
+}
+
+/* Fonts (Google Fonts via @font-face fallback à l'import dans <head>) */

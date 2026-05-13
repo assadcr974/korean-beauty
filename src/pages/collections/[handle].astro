@@ -1,0 +1,80 @@
+---
+import BaseLayout from '@/layouts/BaseLayout.astro';
+import ProductCard from '@/components/ProductCard.astro';
+import { getCollection, COLLECTIONS, shopifyImage } from '@/lib/shopify';
+
+const { handle } = Astro.params;
+
+if (!handle) {
+  return Astro.redirect('/boutique');
+}
+
+const collection = await getCollection(handle);
+
+if (!collection) {
+  return new Response('Collection introuvable', { status: 404 });
+}
+
+// Label FR (depuis CLAUDE.md), fallback titre Shopify
+const localLabel = COLLECTIONS.find((c) => c.handle === handle)?.label ?? collection.title;
+---
+
+<BaseLayout
+  title={`${localLabel} — Korean Beauty`}
+  description={collection.description || `Découvrez notre sélection ${localLabel.toLowerCase()} K-beauty.`}
+>
+  <!-- Hero collection -->
+  <section class="relative bg-ecume overflow-hidden">
+    {collection.image && (
+      <img
+        src={shopifyImage(collection.image.url, 1600)}
+        alt={collection.image.altText ?? localLabel}
+        class="absolute inset-0 w-full h-full object-cover opacity-30"
+      />
+    )}
+    <div class="relative container-kb py-20 md:py-28 text-center">
+      <p class="text-xs tracking-[0.3em] uppercase text-jade mb-4">Collection</p>
+      <h1 class="font-display text-5xl md:text-6xl mb-6">{localLabel}</h1>
+      {collection.description && (
+        <p class="text-muted max-w-2xl mx-auto leading-relaxed">
+          {collection.description}
+        </p>
+      )}
+    </div>
+  </section>
+
+  <!-- Grille produits -->
+  <section class="container-kb py-16">
+    {collection.products.length === 0 ? (
+      <p class="text-center text-muted py-20">
+        Aucun produit pour le moment dans cette collection.
+      </p>
+    ) : (
+      <>
+        <p class="text-sm text-muted mb-8">
+          {collection.products.length} produit{collection.products.length > 1 ? 's' : ''}
+        </p>
+        <div class="grid grid-cols-2 md:grid-cols-3 gap-6">
+          {collection.products.map((p) => <ProductCard product={p} />)}
+        </div>
+      </>
+    )}
+  </section>
+
+  <!-- Autres collections -->
+  <section class="border-t border-border bg-ecume/40">
+    <div class="container-kb py-16">
+      <h3 class="font-display text-2xl text-center mb-10">Explorez d'autres rituels</h3>
+      <div class="flex flex-wrap justify-center gap-3">
+        {COLLECTIONS.filter((c) => c.handle !== handle).map((c) => (
+          <a
+            href={`/collections/${c.handle}`}
+            class="px-5 py-2 rounded-full text-sm border border-border bg-white hover:border-jade hover:text-jade transition"
+          >
+            {c.label}
+          </a>
+        ))}
+      </div>
+    </div>
+  </section>
+</BaseLayout>

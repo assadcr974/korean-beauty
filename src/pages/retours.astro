@@ -1,0 +1,119 @@
+---
+import BaseLayout from '@/layouts/BaseLayout.astro';
+---
+
+<BaseLayout
+  title="Retours et remboursements — Korean Beauty"
+  description="Politique de retours, échanges et remboursements de Korean Beauty — 30 jours satisfait ou remboursé."
+>
+  <section class="container-kb py-16">
+    <h1 class="font-display text-5xl mb-4 text-jade">Retours & Remboursements</h1>
+    <p class="text-lg text-muted mb-12">Votre satisfaction est notre priorité — 30 jours pour changer d'avis.</p>
+
+    <div class="bg-jade text-white rounded-lg p-8 mb-12">
+      <p class="text-center text-lg">
+        <strong>Vous avez 30 jours après réception pour retourner un produit.</strong>
+        Pas de questions, pas de frais.
+      </p>
+    </div>
+
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-12 mb-16">
+      <div>
+        <h2 class="font-display text-2xl mb-4 text-jade">Conditions de retour</h2>
+        <ul class="space-y-3 text-base">
+          <li class="flex gap-3">
+            <span class="text-jade font-bold">✓</span>
+            <span>Produit non ouvert ou peu utilisé (testé seulement)</span>
+          </li>
+          <li class="flex gap-3">
+            <span class="text-jade font-bold">✓</span>
+            <span>Emballage d'origine intact</span>
+          </li>
+          <li class="flex gap-3">
+            <span class="text-jade font-bold">✓</span>
+            <span>Facture ou reçu présent</span>
+          </li>
+          <li class="flex gap-3">
+            <span class="text-jade font-bold">✓</span>
+            <span>Retour dans les 30 jours suivant la réception</span>
+          </li>
+        </ul>
+      </div>
+
+      <div>
+        <h2 class="font-display text-2xl mb-4 text-jade">Cas non-remboursables</h2>
+        <ul class="space-y-3 text-base">
+          <li class="flex gap-3">
+            <span class="text-foret font-bold">✗</span>
+            <span>Produit ouvert ou considérablement utilisé</span>
+          </li>
+          <li class="flex gap-3">
+            <span class="text-foret font-bold">✗</span>
+            <span>Emballage d'origine manquant ou endommagé</span>
+          </li>
+          <li class="flex gap-3">
+            <span class="text-foret font-bold">✗</span>
+            <span>Signes d'utilisation importants</span>
+          </li>
+          <li class="flex gap-3">
+            <span class="text-foret font-bold">✗</span>
+            <span>Retour passé le délai de 30 jours</span>
+          </li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="bg-ecume rounded-lg p-8 mb-12">
+      <h2 class="font-display text-2xl mb-6 text-jade">Procédure de retour</h2>
+      <ol class="space-y-4 text-base">
+        <li class="flex gap-4">
+          <span class="bg-jade text-white rounded-full w-8 h-8 flex items-center justify-center flex-shrink-0">1</span>
+          <span>Contactez-nous à <a href="mailto:retours@korean-beauty.fr" class="text-jade font-bold">retours@korean-beauty.fr</a> avec votre numéro de commande</span>
+        </li>
+        <li class="flex gap-4">
+          <span class="bg-jade text-white rounded-full w-8 h-8 flex items-center justify-center flex-shrink-0">2</span>
+          <span>Nous vous enverrons une étiquette de retour gratuite</span>
+        </li>
+        <li class="flex gap-4">
+          <span class="bg-jade text-white rounded-full w-8 h-8 flex items-center justify-center flex-shrink-0">3</span>
+          <span>Emballez le produit avec soin et envoyez-le via le transporteur indiqué</span>
+        </li>
+        <li class="flex gap-4">
+          <span class="bg-jade text-white rounded-full w-8 h-8 flex items-center justify-center flex-shrink-0">4</span>
+          <span>Une fois reçu et inspecté, nous traitons votre remboursement</span>
+        </li>
+        <li class="flex gap-4">
+          <span class="bg-jade text-white rounded-full w-8 h-8 flex items-center justify-center flex-shrink-0">5</span>
+          <span>Remboursement effectué sous 7 à 10 jours ouvrés</span>
+        </li>
+      </ol>
+    </div>
+
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-8 mb-12">
+      <div>
+        <h3 class="font-display text-xl mb-3 text-jade">Frais de retour</h3>
+        <p class="text-base mb-4">
+          L'étiquette de retour est <strong>gratuite</strong> pour tous les retours éligibles.
+          En cas de retour après la période de 30 jours, les frais de port sont à votre charge.
+        </p>
+      </div>
+
+      <div>
+        <h3 class="font-display text-xl mb-3 text-jade">Échanges</h3>
+        <p class="text-base mb-4">
+          Vous pouvez échanger un produit pour un autre de la même collection.
+          Contactez-nous pour plus de détails.
+        </p>
+      </div>
+    </div>
+
+    <div class="bg-jade text-white rounded-lg p-8">
+      <h3 class="font-display text-xl mb-3">Besoin d'aide ?</h3>
+      <p class="mb-4">
+        Notre équipe est là pour vous. Écrivez à <a href="mailto:hello@korean-beauty.fr" class="underline hover:text-ecume">
+          hello@korean-beauty.fr
+        </a> — réponse garantie en moins de 24h.
+      </p>
+    </div>
+  </section>
+</BaseLayout>

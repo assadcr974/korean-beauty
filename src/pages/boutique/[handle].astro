@@ -1,0 +1,163 @@
+---
+import BaseLayout from '@/layouts/BaseLayout.astro';
+import ProductCard from '@/components/ProductCard.astro';
+import AddToCartButton from '@/components/AddToCartButton.tsx';
+import { getProduct, getAllProducts, formatPrice, shopifyImage, type Product } from '@/lib/shopify';
+
+const { handle } = Astro.params;
+
+if (!handle) {
+  return Astro.redirect('/boutique');
+}
+
+const product = await getProduct(handle);
+
+if (!product) {
+  return new Response('Produit introuvable', { status: 404 });
+}
+
+// Produits similaires (autres produits du catalogue)
+let related: Product[] = [];
+try {
+  const all = await getAllProducts(20);
+  related = all.filter((p) => p.handle !== handle).slice(0, 3);
+} catch (e) {
+  console.warn('[product] related indisponibles', e);
+}
+
+const defaultVariant = product.variants.find((v) => v.availableForSale) ?? product.variants[0];
+const price = formatPrice(product.priceRange.minVariantPrice);
+const mainImage = product.images[0];
+---
+
+<BaseLayout
+  title={`${product.title} — Korean Beauty`}
+  description={product.description.slice(0, 160)}
+  image={mainImage?.url}
+>
+  <!-- Fil d'ariane -->
+  <nav class="container-kb pt-6 text-xs text-muted">
+    <a href="/" class="hover:text-jade">Accueil</a>
+    <span class="mx-2">/</span>
+    <a href="/boutique" class="hover:text-jade">Boutique</a>
+    <span class="mx-2">/</span>
+    <span class="text-text">{product.title}</span>
+  </nav>
+
+  <!-- Fiche produit -->
+  <section class="container-kb py-12">
+    <div class="grid md:grid-cols-2 gap-12 lg:gap-20 items-start">
+      <!-- Galerie images -->
+      <div>
+        {mainImage ? (
+          <div class="aspect-square rounded-lg overflow-hidden bg-ecume mb-4">
+            <img
+              id="main-image"
+              src={shopifyImage(mainImage.url, 1200)}
+              alt={mainImage.altText ?? product.title}
+              class="w-full h-full object-cover"
+            />
+          </div>
+        ) : (
+          <div class="aspect-square rounded-lg bg-ecume flex items-center justify-center text-muted">
+            Aucune image
+          </div>
+        )}
+        {product.images.length > 1 && (
+          <div class="grid grid-cols-5 gap-2">
+            {product.images.map((img, i) => (
+              <button
+                type="button"
+                class="thumb aspect-square rounded-md overflow-hidden bg-ecume border border-transparent hover:border-jade transition"
+                data-src={shopifyImage(img.url, 1200)}
+                data-alt={img.altText ?? product.title}
+                aria-label={`Image ${i + 1}`}
+              >
+                <img
+                  src={shopifyImage(img.url, 240)}
+                  alt={img.altText ?? `${product.title} ${i + 1}`}
+                  class="w-full h-full object-cover"
+                  loading="lazy"
+                />
+              </button>
+            ))}
+          </div>
+        )}
+      </div>
+
+      <!-- Détails -->
+      <div>
+        <h1 class="font-display text-3xl md:text-4xl mb-4 leading-tight">{product.title}</h1>
+        <p class="font-display text-2xl text-jade mb-8">{price}</p>
+
+        <div class="prose prose-sm text-text/80 leading-relaxed mb-10">
+          <p>{product.description}</p>
+        </div>
+
+        <!-- Sélecteur de variante (si plusieurs) -->
+        {product.variants.length > 1 && (
+          <div class="mb-6">
+            <label for="variant-select" class="block text-sm font-medium mb-2">Variante</label>
+            <select
+              id="variant-select"
+              class="w-full px-4 py-3 border border-border rounded-md bg-white focus:border-jade focus:outline-none"
+            >
+              {product.variants.map((v) => (
+                <option value={v.id} disabled={!v.availableForSale}>
+                  {v.title} — {formatPrice(v.price)}{!v.availableForSale ? ' (rupture)' : ''}
+                </option>
+              ))}
+            </select>
+          </div>
+        )}
+
+        <!-- Bouton ajouter au panier (React Island) -->
+        <div id="add-to-cart-wrap">
+          <AddToCartButton
+            client:load
+            variantId={defaultVariant.id}
+            available={defaultVariant.availableForSale}
+          />
+        </div>
+
+        <!-- Réassurance produit -->
+        <div class="mt-10 pt-8 border-t border-border space-y-3 text-sm text-muted">
+          <p>✦ Produit authentique sourcé en Corée du Sud</p>
+          <p>✦ Livraison en France sous 48h</p>
+          <p>✦ Paiement sécurisé via Shopify</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Produits similaires -->
+  {related.length > 0 && (
+    <section class="container-kb py-16 border-t border-border">
+      <h2 class="font-display text-3xl text-center mb-12">Vous aimerez aussi</h2>
+      <div class="grid grid-cols-2 md:grid-cols-3 gap-6">
+        {related.map((p) => <ProductCard product={p} />)}
+      </div>
+    </section>
+  )}
+</BaseLayout>
+
+<script>
+  // Galerie : thumbnails → image principale
+  const main = document.getElementById('main-image') as HTMLImageElement | null;
+  document.querySelectorAll<HTMLButtonElement>('.thumb').forEach((btn) => {
+    btn.addEventListener('click', () => {
+      if (!main) return;
+      main.src = btn.dataset.src ?? main.src;
+      main.alt = btn.dataset.alt ?? main.alt;
+    });
+  });
+
+  // Changement de variante → met à jour l'ID du bouton AddToCart
+  // (Pour rester simple, on recharge la page avec un param ; idéalement on passerait au composant React)
+  const select = document.getElementById('variant-select') as HTMLSelectElement | null;
+  select?.addEventListener('change', () => {
+    // Pour cette première version, on garde la variante par défaut côté React.
+    // Si tu veux gérer les variantes multiples dans le bouton, on étendra dans une v2.
+    console.info('Variante sélectionnée :', select.value);
+  });
+</script>

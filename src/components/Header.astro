@@ -1,0 +1,115 @@
+---
+import { COLLECTIONS } from '@/lib/shopify';
+---
+
+<header class="sticky top-0 z-40 bg-white/90 backdrop-blur border-b border-border">
+  <div class="container-kb flex items-center justify-between h-20">
+    <!-- Logo -->
+    <a href="/" class="block py-2" aria-label="Korean Beauty — accueil">
+      <img src="/logo-horizontal.svg" alt="Korean Beauty by Assa" class="h-12 w-auto" />
+    </a>
+
+    <!-- Navigation desktop -->
+    <nav class="hidden md:flex items-center gap-8">
+      <a href="/boutique" class="text-sm font-medium hover:text-jade transition">Boutique</a>
+      {COLLECTIONS.slice(0, 4).map((c) => (
+        <a href={`/collections/${c.handle}`} class="text-sm hover:text-jade transition">
+          {c.label}
+        </a>
+      ))}
+    </nav>
+
+    <!-- Actions -->
+    <div class="flex items-center gap-4">
+      <a href="/panier" class="relative flex items-center gap-2 text-sm font-medium hover:text-jade transition" aria-label="Panier">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <path d="M6 2 3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4Z" />
+          <line x1="3" y1="6" x2="21" y2="6" />
+          <path d="M16 10a4 4 0 0 1-8 0" />
+        </svg>
+        <span class="hidden sm:inline">Panier</span>
+        <span
+          id="cart-count"
+          class="hidden absolute -top-2 -right-2 min-w-[20px] h-5 px-1 rounded-full bg-jade text-white text-[11px] font-medium items-center justify-center"
+        >0</span>
+      </a>
+      <!-- Menu mobile (toggle) -->
+      <button
+        id="menu-toggle"
+        class="md:hidden p-2 -mr-2"
+        aria-label="Menu"
+        aria-expanded="false"
+      >
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <line x1="3" y1="6" x2="21" y2="6" />
+          <line x1="3" y1="12" x2="21" y2="12" />
+          <line x1="3" y1="18" x2="21" y2="18" />
+        </svg>
+      </button>
+    </div>
+  </div>
+
+  <!-- Menu mobile -->
+  <nav id="mobile-menu" class="hidden md:hidden border-t border-border bg-white">
+    <div class="container-kb py-4 flex flex-col gap-3">
+      <a href="/boutique" class="py-2 text-sm font-medium">Boutique</a>
+      {COLLECTIONS.map((c) => (
+        <a href={`/collections/${c.handle}`} class="py-2 text-sm">{c.label}</a>
+      ))}
+    </div>
+  </nav>
+</header>
+
+<script>
+  // Menu mobile
+  const toggle = document.getElementById('menu-toggle');
+  const menu = document.getElementById('mobile-menu');
+  toggle?.addEventListener('click', () => {
+    const open = menu?.classList.toggle('hidden') === false;
+    toggle.setAttribute('aria-expanded', String(open));
+  });
+
+  // Compteur panier
+  const STORE_DOMAIN = import.meta.env.PUBLIC_SHOPIFY_STORE_DOMAIN;
+  const TOKEN = import.meta.env.PUBLIC_SHOPIFY_STOREFRONT_ACCESS_TOKEN;
+  const CART_KEY = 'kb_cart_id';
+  const badge = document.getElementById('cart-count');
+
+  async function refreshCartCount() {
+    if (!badge) return;
+    const id = localStorage.getItem(CART_KEY);
+    if (!id) {
+      badge.classList.add('hidden');
+      badge.classList.remove('flex');
+      return;
+    }
+    try {
+      const res = await fetch(`https://${STORE_DOMAIN}/api/2026-04/graphql.json`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'X-Shopify-Storefront-Access-Token': TOKEN,
+        },
+        body: JSON.stringify({
+          query: `query($id: ID!) { cart(id: $id) { totalQuantity } }`,
+          variables: { id },
+        }),
+      });
+      const { data } = await res.json();
+      const qty = data?.cart?.totalQuantity ?? 0;
+      if (qty > 0) {
+        badge.textContent = String(qty);
+        badge.classList.remove('hidden');
+        badge.classList.add('flex');
+      } else {
+        badge.classList.add('hidden');
+        badge.classList.remove('flex');
+      }
+    } catch (e) {
+      console.warn('cart count', e);
+    }
+  }
+
+  refreshCartCount();
+  window.addEventListener('kb:cart:updated', refreshCartCount);
+</script>

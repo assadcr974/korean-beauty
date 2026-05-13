@@ -1,0 +1,146 @@
+---
+import BaseLayout from '@/layouts/BaseLayout.astro';
+import ProductCard from '@/components/ProductCard.astro';
+import {
+  COLLECTIONS,
+  getAllProducts,
+  getCollectionsMeta,
+  shopifyImage,
+  type Product,
+  type CollectionMeta,
+} from '@/lib/shopify';
+
+// Bestsellers (6 produits depuis Shopify)
+let bestsellers: Product[] = [];
+try {
+  bestsellers = (await getAllProducts(6)).slice(0, 6);
+} catch (e) {
+  console.warn('[homepage] bestsellers indisponibles', e);
+}
+
+// Collections en avant : on essaie de récupérer leurs métadonnées (notamment l'image)
+const featuredHandles = COLLECTIONS.slice(0, 4).map((c) => c.handle);
+let featuredCollections: CollectionMeta[] = [];
+try {
+  featuredCollections = await getCollectionsMeta(featuredHandles);
+} catch (e) {
+  console.warn('[homepage] meta collections indisponibles', e);
+}
+
+// Construit la liste finale en fusionnant la donnée locale (label FR) + Shopify (image)
+const collectionsToShow = COLLECTIONS.slice(0, 4).map((c) => {
+  const meta = featuredCollections.find((m) => m.handle === c.handle);
+  return {
+    handle: c.handle,
+    label: c.label,
+    image: meta?.image ?? null,
+  };
+});
+---
+
+<BaseLayout title="Korean Beauty — Skincare · Glow · Ritual">
+  <!-- ───────── HERO (image plein fond) ───────── -->
+  <section class="relative overflow-hidden bg-ecume">
+    <!-- Image de fond -->
+    <img
+      src="/hero.png"
+      alt="Sélection de produits K-beauty — sérums, nettoyants, soins coréens authentiques"
+      class="absolute inset-0 w-full h-full object-cover"
+      fetchpriority="high"
+    />
+
+    <!-- Voile dégradé pour lisibilité du texte -->
+    <div class="absolute inset-0 bg-gradient-to-r from-white/95 via-white/75 to-transparent md:from-white/90 md:via-white/55 md:to-transparent"></div>
+
+    <!-- Contenu texte -->
+    <div class="relative container-kb py-32 md:py-44 lg:py-52">
+      <div class="max-w-xl">
+        <p class="text-xs tracking-[0.3em] uppercase text-jade mb-6">
+          Skincare · Glow · Ritual
+        </p>
+        <h1 class="font-display text-5xl md:text-6xl leading-[1.05] mb-6 text-foret">
+          Le rituel coréen,<br />
+          <span class="text-jade">livré chez vous.</span>
+        </h1>
+        <p class="text-lg text-foret/80 mb-10 max-w-md leading-relaxed">
+          Sérums, crèmes et soins authentiques sélectionnés en Corée. Pour une peau éclatante,
+          jour après jour.
+        </p>
+        <div class="flex flex-wrap gap-4">
+          <a href="/boutique" class="btn btn-primary">Découvrir la boutique</a>
+          <a href="/collections/serums" class="btn btn-secondary bg-white/70 backdrop-blur">Voir les sérums</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ───────── COLLECTIONS ───────── -->
+  <section class="container-kb py-24">
+    <div class="text-center mb-16">
+      <p class="text-xs tracking-[0.3em] uppercase text-jade mb-3">Catégories</p>
+      <h2 class="font-display text-4xl">Explorez par rituel</h2>
+    </div>
+    <div class="grid grid-cols-2 md:grid-cols-4 gap-6">
+      {collectionsToShow.map((c) => (
+        <a
+          href={`/collections/${c.handle}`}
+          class="card aspect-[3/4] relative overflow-hidden flex items-end group"
+        >
+          {c.image ? (
+            <img
+              src={shopifyImage(c.image.url, 800)}
+              alt={c.image.altText ?? c.label}
+              loading="lazy"
+              class="absolute inset-0 w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
+            />
+          ) : (
+            <div class="absolute inset-0 bg-gradient-to-br from-jade/30 via-ecume to-jade/10 group-hover:from-jade/40 transition" />
+          )}
+          <!-- Voile sombre pour la lisibilité du texte -->
+          <div class="absolute inset-0 bg-gradient-to-t from-black/55 via-black/10 to-transparent" />
+          <div class="relative p-6 w-full text-white">
+            <p class="font-display text-xl drop-shadow-sm">{c.label}</p>
+            <p class="text-xs opacity-90 mt-1">Découvrir →</p>
+          </div>
+        </a>
+      ))}
+    </div>
+  </section>
+
+  <!-- ───────── BESTSELLERS ───────── -->
+  {bestsellers.length > 0 && (
+    <section class="container-kb py-24">
+      <div class="text-center mb-16">
+        <p class="text-xs tracking-[0.3em] uppercase text-jade mb-3">Bestsellers</p>
+        <h2 class="font-display text-4xl">Les essentiels du moment</h2>
+      </div>
+      <div class="grid grid-cols-2 md:grid-cols-3 gap-6">
+        {bestsellers.map((p) => <ProductCard product={p} />)}
+      </div>
+      <div class="text-center mt-12">
+        <a href="/boutique" class="btn btn-secondary">Voir toute la boutique</a>
+      </div>
+    </section>
+  )}
+
+  <!-- ───────── RÉASSURANCE ───────── -->
+  <section class="bg-ecume">
+    <div class="container-kb py-20 grid grid-cols-1 md:grid-cols-3 gap-12 text-center">
+      <div>
+        <div class="text-3xl mb-3">✦</div>
+        <h3 class="font-display text-xl mb-2">Livraison en France</h3>
+        <p class="text-sm text-muted">Expédition sous 48h. Suivi inclus.</p>
+      </div>
+      <div>
+        <div class="text-3xl mb-3">✦</div>
+        <h3 class="font-display text-xl mb-2">Produits authentiques</h3>
+        <p class="text-sm text-muted">Sourcés directement en Corée du Sud.</p>
+      </div>
+      <div>
+        <div class="text-3xl mb-3">✦</div>
+        <h3 class="font-display text-xl mb-2">Paiement sécurisé</h3>
+        <p class="text-sm text-muted">CB, Apple Pay, PayPal — via Shopify.</p>
+      </div>
+    </div>
+  </section>
+</BaseLayout>

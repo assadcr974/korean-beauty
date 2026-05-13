@@ -1,0 +1,104 @@
+---
+import BaseLayout from '@/layouts/BaseLayout.astro';
+import ProductCard from '@/components/ProductCard.astro';
+import { COLLECTIONS, getAllProducts, type Product } from '@/lib/shopify';
+
+let products: Product[] = [];
+let error: string | null = null;
+try {
+  products = await getAllProducts(100);
+} catch (e) {
+  console.error('[boutique] erreur Shopify', e);
+  error = 'Impossible de charger les produits pour le moment.';
+}
+---
+
+<BaseLayout
+  title="Boutique — Korean Beauty"
+  description="Tout le catalogue K-beauty : sérums, crèmes, protection solaire, soin lèvres et corps."
+>
+  <section class="container-kb pt-16 pb-12">
+    <p class="text-xs tracking-[0.3em] uppercase text-jade mb-3 text-center">Catalogue</p>
+    <h1 class="font-display text-5xl text-center mb-4">Toute la boutique</h1>
+    <p class="text-muted text-center max-w-xl mx-auto">
+      Explorez l'intégralité de notre sélection de soins coréens authentiques.
+    </p>
+  </section>
+
+  <!-- Barre de filtres -->
+  <section class="border-y border-border bg-ecume/50 sticky top-20 z-30 backdrop-blur">
+    <div class="container-kb py-4 overflow-x-auto">
+      <div class="flex items-center gap-3 min-w-max">
+        <button
+          type="button"
+          data-filter="all"
+          class="filter-btn px-4 py-2 rounded-full text-sm font-medium border border-jade bg-jade text-white transition"
+        >
+          Tous
+        </button>
+        {COLLECTIONS.map((c) => (
+          <button
+            type="button"
+            data-filter={c.handle}
+            class="filter-btn px-4 py-2 rounded-full text-sm font-medium border border-border text-text hover:border-jade hover:text-jade transition"
+          >
+            {c.label}
+          </button>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- Grille produits -->
+  <section class="container-kb py-12">
+    {error && (
+      <p class="text-center text-muted py-12">{error}</p>
+    )}
+
+    {!error && products.length === 0 && (
+      <p class="text-center text-muted py-12">
+        Aucun produit pour le moment. Revenez bientôt !
+      </p>
+    )}
+
+    {products.length > 0 && (
+      <div id="product-grid" class="grid grid-cols-2 md:grid-cols-3 gap-6">
+        {products.map((p) => (
+          <div class="product-item" data-tags={p.handle}>
+            <ProductCard product={p} />
+          </div>
+        ))}
+      </div>
+    )}
+  </section>
+</BaseLayout>
+
+<script>
+  // Filtres client-side simples
+  const buttons = document.querySelectorAll<HTMLButtonElement>('.filter-btn');
+  const items = document.querySelectorAll<HTMLElement>('.product-item');
+
+  buttons.forEach((btn) => {
+    btn.addEventListener('click', () => {
+      const filter = btn.dataset.filter;
+
+      // Style actif
+      buttons.forEach((b) => {
+        b.classList.remove('bg-jade', 'text-white');
+        b.classList.add('text-text');
+      });
+      btn.classList.add('bg-jade', 'text-white');
+      btn.classList.remove('text-text');
+
+      // Filtrage (basique : par défaut on affiche tout)
+      // Note : pour un vrai filtrage par collection, il faudrait stocker
+      // les collections de chaque produit dans data-collections.
+      // Ici on redirige vers la page collection si filtre ≠ "all".
+      if (filter && filter !== 'all') {
+        window.location.href = `/collections/${filter}`;
+      } else {
+        items.forEach((it) => (it.style.display = ''));
+      }
+    });
+  });
+</script>

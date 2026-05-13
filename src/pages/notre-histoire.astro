@@ -1,0 +1,58 @@
+---
+import BaseLayout from '@/layouts/BaseLayout.astro';
+---
+
+<BaseLayout
+  title="Notre histoire — Korean Beauty"
+  description="Découvrez l'histoire de Korean Beauty, notre passion pour la skincare coréenne et nos valeurs."
+>
+  <section class="container-kb py-16">
+    <h1 class="font-display text-5xl mb-4 text-jade">Notre histoire</h1>
+    <p class="text-lg text-muted mb-12">La passion pour le skincare coréen authentique.</p>
+
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-12 mb-16">
+      <div>
+        <h2 class="font-display text-2xl mb-4 text-foret">Née d'une passion</h2>
+        <p class="text-base leading-relaxed mb-4">
+          Korean Beauty est née de l'amour pour la skincare coréenne — ces rituels millénaires qui allient
+          efficacité scientifique et bien-être holistique. Fondée par Assa en 2024, notre boutique
+          sélectionne les meilleures marques K-beauty pour vous offrir des produits authentiques et
+          transformateurs.
+        </p>
+        <p class="text-base leading-relaxed">
+          Chaque produit est choisi pour sa qualité, ses ingrédients et son efficacité prouvée.
+          Nous croyons qu'une belle peau n'est pas un luxe, c'est un rituel quotidien d'amour pour soi.
+        </p>
+      </div>
+      <div class="bg-ecume rounded-lg p-8">
+        <h3 class="font-display text-xl mb-4 text-jade">Nos valeurs</h3>
+        <ul class="space-y-3 text-base">
+          <li class="flex gap-3">
+            <span class="text-jade font-bold">✓</span>
+            <span><strong>Authenticité :</strong> produits 100% authentiques, directement de Corée</span>
+          </li>
+          <li class="flex gap-3">
+            <span class="text-jade font-bold">✓</span>
+            <span><strong>Transparence :</strong> explications claires sur chaque produit</span>
+          </li>
+          <li class="flex gap-3">
+            <span class="text-jade font-bold">✓</span>
+            <span><strong>Rituel :</strong> l'art du skincare comme moment pour soi</span>
+          </li>
+          <li class="flex gap-3">
+            <span class="text-jade font-bold">✓</span>
+            <span><strong>Sélection :</strong> curation réfléchie des meilleures marques</span>
+          </li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="bg-jade text-white rounded-lg p-12 text-center">
+      <p class="text-lg">
+        <span class="font-display text-2xl block mb-2">"La vraie beauté vient du dedans,</span>
+        <span>mais un bon sérum n'a jamais fait de mal."</span>
+      </p>
+      <p class="mt-6 text-ecume">— Assa, Fondatrice</p>
+    </div>
+  </section>
+</BaseLayout>

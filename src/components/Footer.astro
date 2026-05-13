@@ -1,0 +1,56 @@
+---
+import { COLLECTIONS } from '@/lib/shopify';
+---
+
+<footer class="mt-32 border-t border-border bg-ecume">
+  <div class="container-kb py-16 grid grid-cols-1 md:grid-cols-4 gap-12">
+    <!-- Bloc marque -->
+    <div>
+      <img src="/logo-horizontal.svg" alt="Korean Beauty by Assa" class="h-14 w-auto mb-4" />
+      <p class="text-sm text-muted leading-relaxed">
+        Skincare · Glow · Ritual. La beauté coréenne authentique livrée en France.
+      </p>
+    </div>
+
+    <!-- Collections -->
+    <div>
+      <h4 class="font-display text-sm uppercase tracking-wider text-text mb-4">Collections</h4>
+      <ul class="space-y-2 text-sm">
+        {COLLECTIONS.map((c) => (
+          <li>
+            <a href={`/collections/${c.handle}`} class="text-muted hover:text-jade transition">
+              {c.label}
+            </a>
+          </li>
+        ))}
+      </ul>
+    </div>
+
+    <!-- Aide -->
+    <div>
+      <h4 class="font-display text-sm uppercase tracking-wider text-text mb-4">Aide</h4>
+      <ul class="space-y-2 text-sm">
+        <li><a href="/livraison" class="text-muted hover:text-jade transition">Livraison</a></li>
+        <li><a href="/retours" class="text-muted hover:text-jade transition">Retours</a></li>
+        <li><a href="/contact" class="text-muted hover:text-jade transition">Contact</a></li>
+      </ul>
+    </div>
+
+    <!-- Mentions -->
+    <div>
+      <h4 class="font-display text-sm uppercase tracking-wider text-text mb-4">À propos</h4>
+      <ul class="space-y-2 text-sm">
+        <li><a href="/notre-histoire" class="text-muted hover:text-jade transition">Notre histoire</a></li>
+        <li><a href="/mentions-legales" class="text-muted hover:text-jade transition">Mentions légales</a></li>
+        <li><a href="/cgv" class="text-muted hover:text-jade transition">CGV</a></li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="border-t border-border">
+    <div class="container-kb py-6 flex flex-col md:flex-row items-center justify-between gap-4 text-xs text-muted">
+      <p>© {new Date().getFullYear()} Korean Beauty — Tous droits réservés.</p>
+      <p>Paiement sécurisé · Livraison en France · Produits authentiques</p>
+    </div>
+  </div>
+</footer>
