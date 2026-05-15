@@ -11,12 +11,10 @@ import { COLLECTIONS } from '@/lib/shopify';
 
     <!-- Navigation desktop -->
     <nav class="hidden md:flex items-center gap-8">
-      <a href="/boutique" class="text-sm font-medium hover:text-jade transition">Boutique</a>
-      {COLLECTIONS.slice(0, 4).map((c) => (
-        <a href={`/collections/${c.handle}`} class="text-sm hover:text-jade transition">
-          {c.label}
-        </a>
-      ))}
+      <a href="/notre-histoire" class="text-sm font-medium hover:text-jade transition">Notre histoire</a>
+      <a href="/livraison" class="text-sm font-medium hover:text-jade transition">Livraison</a>
+      <a href="/retours" class="text-sm font-medium hover:text-jade transition">Retours</a>
+      <a href="/contact" class="text-sm font-medium hover:text-jade transition">Contact</a>
     </nav>
 
     <!-- Actions -->
