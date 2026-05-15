@@ -2,6 +2,7 @@
 import '@/styles/global.css';
 import Header from '@/components/Header.astro';
 import Footer from '@/components/Footer.astro';
+import NewsletterPopup from '@/components/NewsletterPopup.tsx';
 
 interface Props {
   title?: string;
@@ -60,5 +61,6 @@ const canonical = new URL(Astro.url.pathname, Astro.site).toString();
       <slot />
     </main>
     <Footer />
+    <NewsletterPopup client:load discountCode="BIENVENUE10" />
   </body>
 </html>
