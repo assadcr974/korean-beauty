@@ -35,17 +35,24 @@ export default function NewsletterPopup({ discountCode = 'BIENVENUE10' }: Newsle
         body: JSON.stringify({ email }),
       });
 
+      const data = await response.json();
+
       if (response.ok) {
-        setMessage('✓ Merci ! Vous recevrez votre code promo par email.');
+        setMessage('✓ Merci ! Code promo : ' + (data.discountCode || 'BIENVENUE10'));
         setTimeout(() => {
           handleClose();
-        }, 2000);
+        }, 3000);
+      } else if (response.status === 409) {
+        setMessage('⚠️ ' + (data.message || 'Cet email a déjà reçu la réduction.'));
+        setTimeout(() => {
+          handleClose();
+        }, 3000);
       } else {
-        setMessage('Erreur lors de l\'inscription. Réessayez.');
+        setMessage('⚠️ Erreur lors de l\'inscription.');
       }
     } catch (error) {
       console.error('Newsletter error:', error);
-      setMessage('Erreur. Veuillez réessayer.');
+      setMessage('⚠️ Erreur. Veuillez réessayer.');
     } finally {
       setIsLoading(false);
     }

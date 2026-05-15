@@ -1,7 +1,33 @@
 import type { APIRoute } from 'astro';
+import fs from 'fs/promises';
+import path from 'path';
 
 const STORE_DOMAIN = import.meta.env.PUBLIC_SHOPIFY_STORE_DOMAIN;
 const TOKEN = import.meta.env.PUBLIC_SHOPIFY_STOREFRONT_ACCESS_TOKEN;
+
+// File to track newsletter signups (use env var for production DB)
+const NEWSLETTER_DB = path.join(process.cwd(), '.data', 'newsletter-signups.json');
+
+async function getSignedUpEmails(): Promise<Set<string>> {
+  try {
+    const data = await fs.readFile(NEWSLETTER_DB, 'utf-8');
+    const emails = JSON.parse(data) as string[];
+    return new Set(emails);
+  } catch {
+    return new Set();
+  }
+}
+
+async function addSignedUpEmail(email: string): Promise<void> {
+  try {
+    await fs.mkdir(path.dirname(NEWSLETTER_DB), { recursive: true });
+    const signedUp = await getSignedUpEmails();
+    signedUp.add(email.toLowerCase());
+    await fs.writeFile(NEWSLETTER_DB, JSON.stringify(Array.from(signedUp), null, 2));
+  } catch (error) {
+    console.error('Failed to save signup:', error);
+  }
+}
 
 export const POST: APIRoute = async ({ request }) => {
   if (request.method !== 'POST') {
@@ -13,6 +39,20 @@ export const POST: APIRoute = async ({ request }) => {
 
     if (!email || !email.includes('@')) {
       return new Response(JSON.stringify({ error: 'Invalid email' }), { status: 400 });
+    }
+
+    const normalizedEmail = email.toLowerCase();
+    const signedUp = await getSignedUpEmails();
+
+    // Check if email already used the promotion
+    if (signedUp.has(normalizedEmail)) {
+      return new Response(
+        JSON.stringify({
+          error: 'Email already used',
+          message: 'Cet email a déjà reçu la réduction de bienvenue.'
+        }),
+        { status: 409 }
+      );
     }
 
     // Subscribe to Shopify Customer API
@@ -39,7 +79,7 @@ export const POST: APIRoute = async ({ request }) => {
         `,
         variables: {
           input: {
-            email,
+            email: normalizedEmail,
             acceptsMarketing: true,
           },
         },
@@ -56,13 +96,15 @@ export const POST: APIRoute = async ({ request }) => {
       );
     }
 
-    if (result.data?.customerCreate?.userErrors?.length > 0) {
-      // Email might already exist, which is fine
-      console.log('Customer creation note:', result.data.customerCreate.userErrors);
-    }
+    // Record this email as having used the promotion
+    await addSignedUpEmail(normalizedEmail);
 
     return new Response(
-      JSON.stringify({ success: true, message: 'Newsletter subscription successful' }),
+      JSON.stringify({
+        success: true,
+        message: 'Newsletter subscription successful',
+        discountCode: 'BIENVENUE10'
+      }),
       { status: 200 }
     );
   } catch (error) {
