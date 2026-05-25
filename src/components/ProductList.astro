@@ -1,0 +1,73 @@
+---
+import { getProducts } from '../lib/shopify';
+
+const response = await getProducts();
+const products = response.products.edges;
+---
+
+<section class="products">
+  <h2>Nos produits</h2>
+  <div class="grid">
+    {products.map(({ node }) => (
+      <div class="product-card">
+        <img 
+          src={node.images.edges[0]?.node.url} 
+          alt={node.images.edges[0]?.node.altText || node.title}
+        />
+        <h3>{node.title}</h3>
+        <p>{node.description}</p>
+        <span class="price">
+          {node.priceRange.minVariantPrice.amount} {node.priceRange.minVariantPrice.currencyCode}
+        </span>
+        <button>Ajouter au panier</button>
+      </div>
+    ))}
+  </div>
+</section>
+
+<style>
+  .products {
+    padding: 2rem;
+  }
+  
+  .grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+    gap: 2rem;
+    margin-top: 2rem;
+  }
+  
+  .product-card {
+    border: 1px solid #e0e0e0;
+    border-radius: 8px;
+    padding: 1rem;
+    text-align: center;
+  }
+  
+  .product-card img {
+    width: 100%;
+    height: 250px;
+    object-fit: cover;
+    border-radius: 4px;
+  }
+  
+  .price {
+    font-size: 1.2rem;
+    font-weight: bold;
+    color: #2a5a3a;
+  }
+  
+  button {
+    background-color: #2a5a3a;
+    color: white;
+    padding: 0.75rem 1.5rem;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    margin-top: 1rem;
+  }
+  
+  button:hover {
+    background-color: #1f4629;
+  }
+</style>
