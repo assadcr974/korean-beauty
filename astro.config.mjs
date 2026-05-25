@@ -8,7 +8,7 @@ import sitemap from '@astrojs/sitemap';
 
 // https://astro.build/config
 export default defineConfig({
-  site: 'https://korean-beauty.fr',
+  site: 'https://koreakbeauty.store',
   output: 'server',
   adapter: netlify(),
   integrations: [react(), sitemap()],
